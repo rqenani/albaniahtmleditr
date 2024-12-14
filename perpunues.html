@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALBANIA HTML EDITOR SAVER</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin: 10px 0;
+      font-family: monospace;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    .controls {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .section-title {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <h1>ALBANIA HTML EDITOR SAVER</h1>
+  <p>Write your HTML, CSS, and JavaScript code below, preview it live, and download all files.</p>
+  
+  <div class="section-title">HTML Code:</div>
+  <textarea id="htmlEditor" placeholder="Write your HTML code here..."></textarea>
+  
+  <div class="section-title">CSS Code:</div>
+  <textarea id="cssEditor" placeholder="Write your CSS code here..."></textarea>
+  
+  <div class="section-title">JavaScript Code:</div>
+  <textarea id="jsEditor" placeholder="Write your JavaScript code here..."></textarea>
+  
+  <div class="controls">
+    <button onclick="updatePreview()">Preview</button>
+    <button onclick="saveFiles()">Download Files</button>
+  </div>
+  
+  <iframe id="livePreview"></iframe>
+
+  <script>
+    function updatePreview() {
+      const htmlCode = document.getElementById("htmlEditor").value;
+      const cssCode = `<style>${document.getElementById("cssEditor").value}</style>`;
+      const jsCode = `<script>${document.getElementById("jsEditor").value}<\/script>`;
+      
+      const iframe = document.getElementById("livePreview");
+      iframe.srcdoc = cssCode + htmlCode + jsCode;
+    }
+
+    function saveFiles() {
+      // Save HTML file
+      const htmlCode = document.getElementById("htmlEditor").value;
+      const htmlBlob = new Blob([htmlCode], { type: "text/html" });
+      const htmlUrl = URL.createObjectURL(htmlBlob);
+      downloadFile(htmlUrl, "index.html");
+
+      // Save CSS file
+      const cssCode = document.getElementById("cssEditor").value;
+      const cssBlob = new Blob([cssCode], { type: "text/css" });
+      const cssUrl = URL.createObjectURL(cssBlob);
+      downloadFile(cssUrl, "style.css");
+
+      // Save JS file
+      const jsCode = document.getElementById("jsEditor").value;
+      const jsBlob = new Blob([jsCode], { type: "application/javascript" });
+      const jsUrl = URL.createObjectURL(jsBlob);
+      downloadFile(jsUrl, "script.js");
+    }
+
+    function downloadFile(url, filename) {
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
